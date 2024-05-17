@@ -1,0 +1,28 @@
+﻿@page "/EmployeeList"
+<a href="~/css/bootstrap/bootstrap.min.css.map"></a>
+<link href="~/css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+<div class="card">
+    <div class="card-body">
+        <table class="table table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Emp id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Designation</th>
+                    <th scope="col">Department</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var items in employees)
+                {
+                    <tr>
+                        <td>@items.EmpId</td>
+                        <td>@items.EmpName</td>
+                        <td>@items.Designation</td>
+                        <td>@items.Department</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
