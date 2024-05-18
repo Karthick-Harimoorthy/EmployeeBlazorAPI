@@ -27,24 +27,6 @@ namespace EmployeeBlazorAPI.Controllers
             return await _context.EmployeeDatas.ToListAsync();
         }
 
-        // GET: EmployeeDatas/Details/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<EmployeeData>> Details(string id)
-        {
-            if (id == null || _context.EmployeeDatas == null)
-            {
-                return NotFound();
-            }
-
-            var employeeData = await _context.EmployeeDatas
-                .FirstOrDefaultAsync(m => m.EmpId == id);
-            if (employeeData == null)
-            {
-                return NotFound();
-            }
-
-            return View(employeeData);
-        }
 
         // GET: EmployeeDatas/Create
         [HttpGet]
@@ -70,56 +52,57 @@ namespace EmployeeBlazorAPI.Controllers
         }
 
         //GET: EmployeeDatas/Edit/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<EmployeeData>> Edit(string id)
-        //{
-        //    if (id == null || _context.EmployeeDatas == null)
-        //    {
-        //        return NotFound();
-        //    }
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null || _context.EmployeeDatas == null)
+            {
+                return NotFound();
+            }
 
-        //    var employeeData = await _context.EmployeeDatas.FindAsync(id);
-        //    if (employeeData == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //    return View(employeeData);
-        //}
+            var employeeData = await _context.EmployeeDatas.FindAsync(id);
+            if (employeeData == null)
+            {
+                return NotFound();
+            }
+            return View(employeeData);
+        }
 
         // POST: EmployeeDatas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost("id")]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Edit(string id, [Bind("EmpId,EmpName,Designation,Department")] EmployeeData employeeData)
-        //{
-        //    if (id != employeeData.EmpId)
-        //    {
-        //        return NotFound();
-        //    }
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        try
-        //        {
-        //            _context.Update(employeeData);
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!EmployeeDataExists(employeeData.EmpId))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    return View(employeeData);
-        //}
+        [HttpGet("{id}/{values}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, [Bind("EmpId,EmpName,Designation,Department")] EmployeeData employeeData)
+        {
+            if (id != employeeData.EmpId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(employeeData);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!EmployeeDataExists(employeeData.EmpId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(employeeData);
+        }
 
         // GET: EmployeeDatas/Delete/5
         [HttpDelete("{id}")]
